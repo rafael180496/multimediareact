@@ -18,6 +18,7 @@ function App() {
       } catch (e) {
         console.error("e: ", e);
         seterrortxt("error en cargar video");
+      } finally {
         setdowload(false);
       }
     })();
