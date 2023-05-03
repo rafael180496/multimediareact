@@ -40,6 +40,7 @@ function App() {
         {dowload && <p>Cargando video...</p>}
         {loadvideo && (
           <video
+            autoPlay={true}
             style={{
               height: "220px",
             }}
