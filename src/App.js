@@ -1,25 +1,28 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [loadvideo, setloadvideo] = useState(false);
   const [dowload, setdowload] = useState(false);
   const [errotxt, seterrortxt] = useState("");
   const [srcvideo, setsrcvideo] = useState("");
-  const onload = async () => {
-    try {
-      setdowload(true);
-      const srctmp = await window.flutter_inappwebview.callHandler(
-        "PrintExample"
-      );
-      setsrcvideo(srctmp);
-      setloadvideo(true);
-    } catch (error) {
-      seterrortxt("error en cargar video");
-    } finally {
-      setdowload(false);
-    }
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        setdowload(true);
+        const srctmp = await window.flutter_inappwebview.callHandler(
+          "PrintExample"
+        );
+        setsrcvideo(srctmp);
+        setloadvideo(true);
+      } catch (e) {
+        console.error("e: ", e);
+        seterrortxt("error en cargar video");
+        setdowload(false);
+      }
+    })();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -44,16 +47,6 @@ function App() {
             <source src={srcvideo} type="video/mp4" />
           </video>
         )}
-
-        <button
-          onClick={onload}
-          style={{
-            margin: "20px",
-          }}
-          disabled={dowload}
-        >
-          Cargar video
-        </button>
       </header>
     </div>
   );
